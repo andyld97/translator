@@ -6,7 +6,7 @@ namespace Translator
 {
     public class Consts
     {
-        public static readonly DateTime ReleaseDate = new DateTime(2021, 10, 23, 17, 42, 0);
+        public static readonly DateTime ReleaseDate = new DateTime(2022, 06, 03, 22, 30, 0);
 
         public static readonly Version APP_VERSION
 #if TRANSLATOR

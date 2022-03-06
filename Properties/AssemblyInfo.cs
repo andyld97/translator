@@ -11,9 +11,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Translator")]
 [assembly: AssemblyDescription("Content Managment System für Websiten")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("John und Leopold GbR")]
+[assembly: AssemblyCompany("Code A Software")]
 [assembly: AssemblyProduct("Translator")]
-[assembly: AssemblyCopyright("Copyright © 2021")]
+[assembly: AssemblyCopyright("Copyright © 2021-2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -52,6 +52,6 @@ using System.Windows;
 // Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
 // indem Sie "*" wie unten gezeigt eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.4.2.*")]
-[assembly: AssemblyFileVersion("2.4.2")]
+[assembly: AssemblyVersion("2.4.3.*")]
+[assembly: AssemblyFileVersion("2.3.2")]
 [assembly: SupportedOSPlatform("windows")]

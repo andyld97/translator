@@ -37,9 +37,9 @@
                         <Run Text="für das Menü!" />
                         <LineBreak />
                         <LineBreak />
-                        <Hyperlink NavigateUri="https://admin.bandlead.com/izoomyou/translator" RequestNavigate="Hyperlink_RequestNavigate">Homepage</Hyperlink>
+                        <Hyperlink NavigateUri="https://github.com/andyld97/translator" RequestNavigate="Hyperlink_RequestNavigate">Homepage</Hyperlink>
                         <Run Text="|" />
-                        <Hyperlink NavigateUri="https://admin.bandlead.com/izoomyou/translator" RequestNavigate="Hyperlink_RequestNavigate">Source Code</Hyperlink>
+                        <Hyperlink NavigateUri="https://github.com/andyld97/translator" RequestNavigate="Hyperlink_RequestNavigate">Source Code</Hyperlink>
                         <LineBreak />
                         <LineBreak />
                         <Run Text="Version:" />
@@ -51,7 +51,7 @@
                         <LineBreak />
                         <Run x:Name="TextNewVersionAvailable" FontWeight="Bold" />
                         <LineBreak />
-                        <Run Text="Powered by .NET 5.0.11" FontWeight="Bold" />
+                        <Run Text="Powered by .NET 6.0.2" FontWeight="Bold" />
                     </TextBlock>
                 </StackPanel>
             </TabItem>
