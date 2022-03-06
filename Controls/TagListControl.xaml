@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="Translator.Controls.TagListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Translator.Controls" xmlns:fluent="urn:fluent-ribbon"
+             Height="190">
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="TagDataTemplate">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="../resources/icons/tag.png" Width="32" />
+                    <TextBlock Margin="5,0,0,0" Text="{Binding Name}" Foreground="{DynamicResource BlackBrush}" FontWeight="Bold" FontSize="13" VerticalAlignment="Center" />
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <fluent:ComboBox x:Name="CmbTags" IsEditable="False" Margin="-4,0,0,0" Height="35" ItemTemplate="{StaticResource TagDataTemplate}" />
+
+            <Button x:Name="ButtonAdd" Grid.Column="1" Click="ButtonAdd_Click" Margin="5,5,5,5" ToolTip="Tag hinzufügen">
+                <Image Source="../resources/icons/tag/tag_add.png" Width="32"/>
+            </Button>
+        </Grid>
+
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Vertical" Grid.Column="1">
+
+                <Button x:Name="ButtonRemove" Click="ButtonRemove_Click" Margin="5,5,5,0" ToolTip="Ausgewählten Tag löschen">
+                    <Image Source="../resources/icons/remove.png" Width="32" />
+                </Button>
+                <Button x:Name="ButtonMoveUp" Click="ButtonMoveUp_Click" Margin="5,10,5,0" ToolTip="Ausgewählten Tag nach oben schieben">
+                    <Image Source="../resources/icons/up.png" Width="32" />
+                </Button>
+                <Button x:Name="ButtonMoveDown" Click="ButtonMoveDown_Click" Margin="5,10,5,0" ToolTip="Ausgewählten Tag nach unten schieben">
+                    <Image Source="../resources/icons/down.png" Width="32" />
+                </Button>
+            </StackPanel>
+            <ListBox x:Name="ListTags" PreviewMouseWheel="ListTags_PreviewMouseWheel" Grid.Row="1" Style="{DynamicResource ListBoxDefaultStyle}" Background="{DynamicResource WhiteBrush}" Foreground="{DynamicResource BlackBrush}" ItemTemplate="{StaticResource TagDataTemplate}" FontSize="15" Margin="5,5,0,10.5" />
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Translator.Controls.BlogViewItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Translator.Controls"
+             mc:Ignorable="d" 
+             Width="800" Height="200">
+    <Border Background="#3E3C3C" CornerRadius="20">
+        <Border.ToolTip>
+            <TextBlock>
+                <Run Text="Titel:" FontWeight="Bold"/>
+                <Run Text="{Binding Title}" />
+                <LineBreak />
+                <Run Text="URL:" FontWeight="Bold"/>
+                <Run Text="{Binding UrlName}" />
+                <LineBreak />
+                <Run Text="Veröffentlicht:" FontWeight="Bold" />
+                <Run Text="{Binding Publisher}"/>
+                <Run Text="am" />
+                <Run Text="{Binding PublishedDate, StringFormat=dd.MM.yyyy}" />
+            </TextBlock>
+        </Border.ToolTip>
+        <Border.Resources>
+            <local:BlogImageConverter x:Key="blogImageConverter" />
+            <local:MetaTagConverter x:Key="metaTagConverter" />
+            <local:BlogHyperLinkConverter x:Key="blogHyperLinkConverter" />
+            <local:StringToVisiblityConverter x:Key="stringToVisibilityConverter" />
+            <BooleanToVisibilityConverter x:Key="boolToVisibiltyConverter" />
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="Montserrat" />
+            </Style>
+        </Border.Resources>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Background="Gainsboro" CornerRadius="20" Margin="5">
+                <Image>
+                    <Image.Source>
+                        <MultiBinding Converter="{StaticResource blogImageConverter}">
+                            <Binding Path="ImageFileName" />
+                            <Binding Path="IsSelected" />
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+            </Border>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Margin="5,5" FontSize="22" TextTrimming="CharacterEllipsis" Foreground="White">
+                   <Run Text="{Binding Title}" FontSize="25" FontWeight="Bold" TextDecorations="Underline" />
+                    <LineBreak />               
+                    <Hyperlink Click="Hyperlink_Click" NavigateUri="{Binding ., Converter={StaticResource blogHyperLinkConverter}}">
+                        <Run Text="{Binding ., Converter={StaticResource blogHyperLinkConverter}}" />
+                    </Hyperlink>
+                    <LineBreak />
+                    <Run Text="{Binding PreviewText}" />
+                </TextBlock>
+
+                <Border Visibility="{Binding IsTranslated, Converter={StaticResource boolToVisibilityConverter}}" Background="#ba15ba" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="200" Height="30" Margin="0,5,10,10">
+                    <TextBlock Text="Übersetzt" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                </Border>
+
+                <Grid Grid.Row="1">
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Foreground" Value="White" />
+                            </Style>
+                        </StackPanel.Resources>
+
+                        <Border CornerRadius="10" Margin="10,0,0,0" Background="Gray" Width="100" Visibility="{Binding ., Converter={StaticResource stringToVisibilityConverter}, ConverterParameter=0}">
+                            <TextBlock Text="{Binding ., Converter={StaticResource metaTagConverter}, ConverterParameter=0}" Padding="5" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" />
+                        </Border>
+
+                        <Border CornerRadius="10" Margin="10,0,0,0" Background="Gray" Width="100" Visibility="{Binding ., Converter={StaticResource stringToVisibilityConverter}, ConverterParameter=1}">
+                            <TextBlock Text="{Binding ., Converter={StaticResource metaTagConverter}, ConverterParameter=1}" Padding="5" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" />
+                        </Border>
+
+                        <Border CornerRadius="10" Margin="10,0,0,0" Background="Gray" Width="100" Visibility="{Binding ., Converter={StaticResource stringToVisibilityConverter}, ConverterParameter=2}">
+                            <TextBlock Text="{Binding ., Converter={StaticResource metaTagConverter}, ConverterParameter=2}" Padding="5" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" />
+                        </Border>
+
+                        <Border CornerRadius="10" Margin="10,0,0,0" Background="Gray" Width="100" Visibility="{Binding ., Converter={StaticResource stringToVisibilityConverter}, ConverterParameter=3}">
+                            <TextBlock Text="{Binding ., Converter={StaticResource metaTagConverter}, ConverterParameter=3}" Padding="5" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" />
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>           
+    </Border>
+</UserControl>

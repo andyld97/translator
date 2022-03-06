@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="Translator.Controls.AddImageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+    <Border Background="{DynamicResource WhiteBrush}" BorderBrush="{DynamicResource BlackBrush20}" BorderThickness="1">
+        <Grid Background="Transparent" MouseDown="Grid_MouseDown" ToolTip="Hier klicken, um ein Bild einzufügen, oder um ein neues Bild auszuwählen">
+            <Border x:Name="ImageBorder" Cursor="Hand">
+                <TextBlock Text="Bild einfügen ..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="38" />
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

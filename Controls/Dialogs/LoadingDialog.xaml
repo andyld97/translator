@@ -1,0 +1,20 @@
+﻿<Window x:Class="Translator.Controls.Dialogs.LoadingDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Translator.Controls.Dialogs"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Title="Projekt laden ..." SizeToContent="Height" Width="400" Topmost="True"  Background="{DynamicResource WhiteBrush}">
+    <Grid Margin="5">
+        <StackPanel>
+            <TextBlock FontWeight="Bold" FontSize="15" Foreground="{DynamicResource BlackBrush}">
+                <Run Text="Lade Projekt" />
+                <Run x:Name="TextProject" Text="" />
+                <Run Text="..." />
+            </TextBlock>
+            <ProgressBar IsIndeterminate="True" Height="10" Margin="0,5,0,0" />
+        </StackPanel>
+
+    </Grid>
+</Window>

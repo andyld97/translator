@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="{0}"> <!-- Language -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{1}</title> <!-- Title -->
+    <style>
+
+    * {
+        box-sizing: border-box;
+        font-family: -apple-system,BlinkMacSystemFont,segoe ui,Roboto,Oxygen,Ubuntu,Cantarell,open sans,helvetica neue,sans-serif;
+    }
+
+    header, footer, main {
+        position: relative;
+        width: 100%;
+        max-width: 1200px;
+        margin: 20px auto;
+    }
+
+    body {
+        padding-left: 10px;
+        padding-right: 10px;
+        font-weight: 500;
+        font-display: swap;
+        background: #000;
+        color: white;
+    }
+        
+    .card {
+        background: #161616;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    main h2 {
+        border-bottom: 1px solid #f15a24;
+    }
+
+    </style>
+</head>
+<body>
+    <main>
+        <div class="card"><h1>{1}</h1></div>
+        <div class="card">
+            <img alt="{1}" src="{2}" /> <!-- ImageFileName -->
+            <span>{3}</span> <!-- Publishing-Date -->
+            <span>{4}</span> <!-- Blog-Content -->
+        </div>
+    </main>
+</body>
+</html>

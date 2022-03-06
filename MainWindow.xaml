@@ -1,0 +1,570 @@
+﻿<fluent:RibbonWindow x:Class="Translator.MainWindow"
+        xmlns:fluent="urn:fluent-ribbon" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Translator" xmlns:controls="clr-namespace:Translator.Controls"
+        mc:Ignorable="d"
+                     xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        xmlns:model="clr-namespace:Translator.Model.ViewModel" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:wpf1="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+                     Title="Translator" Height="1024" Width="1280" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibiltyConverter" />
+        <local:VisibilityToLogToggleConverter x:Key="visibilityToLogToggleConverter" />
+        <local:WidthWithMarginConverter x:Key="widthWithMarginConverter" />
+        <Style x:Key="{x:Type ContextMenu}" TargetType="{x:Type ContextMenu}">
+            <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Border Background="{DynamicResource WhiteBrush}" CornerRadius="7, 7, 8, 8" BorderBrush="DarkGray" BorderThickness="2" Opacity="0.96">
+                            <StackPanel ClipToBounds="True" Orientation="Vertical" IsItemsHost="True" Margin="5,4,5,4"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="{x:Type MenuItem}">
+            <Border Name="Border">
+                <Grid>
+                    <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
+                </Grid>
+            </Border>
+        </ControlTemplate>
+
+        <Style x:Key="GridSplitterPreviewStyle">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Fill="#80000000"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="GridSplitterStyle1" TargetType="{x:Type GridSplitter}">
+            <Setter Property="Background"
+                Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+            <Setter Property="PreviewStyle" Value="{StaticResource GridSplitterPreviewStyle}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="5">
+                            <Canvas RenderOptions.EdgeMode="Aliased" UseLayoutRounding="True"
+                                Height="6" VerticalAlignment="Center"
+                                Width="50" HorizontalAlignment="Center">
+                                <Line X1="0" X2="50" Y1="0" Y2="0"
+                                  Stroke="White" StrokeThickness="1"/>
+                                <Line X1="0" X2="50" Y1="1" Y2="1"
+                                  Stroke="#A0A0A0" StrokeThickness="1"/>
+                                <Line X1="0" X2="50" Y1="4" Y2="4"
+                                  Stroke="White" StrokeThickness="1"/>
+                                <Line X1="0" X2="50" Y1="5" Y2="5"
+                                  Stroke="#A0A0A0" StrokeThickness="1"/>
+                            </Canvas>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <DockPanel x:Name="MainDockPanel">
+        <DockPanel.Resources>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+            </Style>
+        </DockPanel.Resources>
+
+        <Grid x:Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="200" />
+            </Grid.RowDefinitions>
+
+            <fluent:Ribbon Background="Transparent" AutomaticStateManagement="True">
+                <fluent:Ribbon.Menu>
+                    <fluent:ApplicationMenu x:Name="AppMenu" Header="Datei" MaxDropDownHeight="500" BorderBrush="Blue">
+                        <fluent:ApplicationMenu.RightPaneContent>
+                            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical" CanVerticallyScroll="True">
+                                <Border HorizontalAlignment="Stretch" BorderBrush="#64647F" BorderThickness="0,0,0,0">
+                                    <TextBlock Text="Zuletzt geöffnete Projekte" Background="{DynamicResource Fluent.Ribbon.Brushes.MenuItem.Background}" Foreground="#64647F" TextAlignment="Left" Padding="12,4,4,4" FontWeight="SemiBold" FontSize="12" />
+                                </Border>
+                                <StackPanel HorizontalAlignment="Stretch" Height="2">
+                                    <Border Height="1" BorderThickness="1" HorizontalAlignment="Stretch" BorderBrush="#DCDDDE" />
+                                    <Border Height="1" BorderThickness="1" HorizontalAlignment="Stretch" BorderBrush="#FEFEFF" />
+                                </StackPanel>
+
+                                <ListBox x:Name="ListRecentlyOpenedDocuments" ItemContainerStyle="{DynamicResource _ListBoxItemStyle}" Background="Transparent" BorderThickness="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" SelectionChanged="ListRecentlyOpenedDocuments_SelectionChanged">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Background="Transparent" Height="40">
+                                                <Grid.ToolTip>
+                                                    <TextBlock>
+                                                        <Run Text="{Binding Description}" />
+                                                        <LineBreak />
+                                                        <Run Text="{Binding Path}" />
+                                                    </TextBlock>
+                                                </Grid.ToolTip>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="35" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Image Source="/resources/icons/globe.png" />
+                                                <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" Margin="10,0,0,0" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </fluent:ApplicationMenu.RightPaneContent>
+                        <fluent:MenuItem Header="Neues Projekt" x:Name="MenuButtonCreateNewProject" Click="MenuButtonCreateNewProject_Click" Icon="/resources/icons/add_project.png" />
+                        <fluent:MenuItem Header="Projekt laden" x:Name="MenuButtonLoadProject" Click="MenuButtonLoadProject_Click" Icon="/resources/icons/open.png" />
+                        <fluent:MenuItem Click="MenuOpenWorkspace_Click" x:Name="MenuButtonOpenWorkspace" Header="Projekt-Pfad öffnen" Icon="/resources/icons/open_folder.png" ToolTip="Öffnet den Pfad im Explorer, in dem das Projekt liegt"    />
+                        <fluent:MenuItem Click="MenuOpenAppPath_Click" x:Name="MenuButtonOpenPublicFolder"  Header="Public-Pfad öffnen" Icon="/resources/icons/open_folder.png" ToolTip="Öffnet den Public Pfad im Explorer, beim dem das generierte JSON liegt"  />
+                        <fluent:MenuItem x:Name="MenuGenerateJson" Click="MenuGenerateJson_Click"  Header="JSON generieren" Icon="/resources/icons/export_json.png" />
+                        <fluent:MenuItem x:Name="MenuUploadFTP" Click="MenuButtonUploadFTP_Click" Header="Hochladen" ToolTip="Lädt die übersetzen Inhalte auf einen FTP Server hoch!" Icon="/resources/icons/upload.png" />
+                        <fluent:MenuItem x:Name="MenuLanguage" Click="MenuButtonLanguages_Click" Header="Sprachen verwalten" Icon="/resources/icons/globe.png" />
+                        <fluent:MenuItem x:Name="MenuSettings" Click="MenuButtonSettings_Click" Header="Einstellungen" Icon="/resources/icons/settings.png" />
+                        <fluent:MenuItem x:Name="MenuAbout" Click="MenuAbout_Click"  Header="Über" Icon="/resources/icons/about.png" />
+                        <fluent:MenuItem x:Name="MenuButtonExit" Click="MenuButtonExit_Click_1"  Header="Beenden" Icon="/resources/icons/exit.png" />
+                    </fluent:ApplicationMenu>
+                </fluent:Ribbon.Menu>
+
+                <fluent:RibbonTabItem x:Name="TabGeneral" Header="Allgemein">
+                    <fluent:RibbonGroupBox Header="Arbeitsbereich">
+                        <fluent:Button x:Name="MenuOpenWorkspace" Click="MenuOpenWorkspace_Click" Header="Projekt-Pfad öffnen" LargeIcon="/resources/icons/open_folder.png" ToolTip="Öffnet den Pfad im Explorer, in dem das Projekt liegt"  />
+                        <fluent:Button x:Name="MenuOpenAppPath" Click="MenuOpenAppPath_Click" Header="Public-Pfad öffnen" LargeIcon="/resources/icons/open_folder.png" ToolTip="Öffnet den Public Pfad im Explorer, beim dem das generierte JSON liegt" />
+                    </fluent:RibbonGroupBox>
+                    <fluent:RibbonGroupBox Header="Publizieren">
+                        <controls:DropDownToggleButton x:Name="ButtonGenerateJson" Header="JSON generieren">
+                            <controls:DropDownToggleButton.LargeIcon>
+                                <Viewbox Width="32" Height="32">
+                                    <Image Source="pack://application:,,,/Translator;component/resources/icons/export_json.png"/>
+                                </Viewbox>
+                            </controls:DropDownToggleButton.LargeIcon>
+                        </controls:DropDownToggleButton>
+                        <fluent:Button x:Name="MenuButtonUploadFTP" Click="MenuButtonUploadFTP_Click" Header="Inhalte hochladen" LargeIcon="/resources/icons/upload.png" ToolTip="Übersetze Inhalte auf einen FTP Server hochladen"  />
+                    </fluent:RibbonGroupBox>
+                    <fluent:RibbonGroupBox Header="Verwaltung">
+                        <fluent:Button x:Name="MenuButtonLanguages" Click="MenuButtonLanguages_Click" Header="Sprachen verwalten" LargeIcon="/resources/icons/globe.png" />
+                        <fluent:Button x:Name="MenuButtonSettings" Click="MenuButtonSettings_Click" Header="Einstellungen öffnen" LargeIcon="/resources/icons/settings.png" />
+                    </fluent:RibbonGroupBox>
+                    <fluent:RibbonGroupBox Header="Protokoll">
+                        <fluent:ToggleButton Header="Protokoll umschalten" IsChecked="{Binding ElementName=TabControlLog, Path=Visibility, Converter={StaticResource visibilityToLogToggleConverter}}">
+                            <fluent:ToggleButton.LargeIcon>
+                                <Viewbox Width="32" Height="32">
+                                    <Image Source="pack://application:,,,/Translator;component/resources/icons/log.png"/>
+                                </Viewbox>
+                            </fluent:ToggleButton.LargeIcon>
+                        </fluent:ToggleButton>
+                        <fluent:Button x:Name="ButtonClearLog" Click="ButtonClearLog_Click" Header="Protokoll leeren" LargeIcon="/resources/icons/trash.png"  />
+                        <fluent:Button x:Name="ButtonGenerateReport" Click="ButtonGenerateReport_Click" Header="Bericht generieren" LargeIcon="/resources/icons/report.png" ToolTip="Generiert einen Status-Bericht, in dem Sie sehen könnnen, wo noch Übersetzungen fehlen"/>
+                        <fluent:Button x:Name="ButtonExportLogToTelegram" Header="Protokoll senden" Click="ButtonExportLogToTelegram_Click" LargeIcon="/resources/icons/telegram.png" ToolTip="Protokol in die Telegram Gruppe senden" />
+                    </fluent:RibbonGroupBox>
+                </fluent:RibbonTabItem>
+                <fluent:RibbonTabItem x:Name="TabContent" Header="Inhalte">
+                    <fluent:RibbonGroupBox Header="Darstellung">
+                        <fluent:ToggleButton x:Name="ButtonSwitchDifferences" Click="ButtonSwitchDifferences_Click" Header="Unfertige Items" LargeIcon="/resources/icons/differences.png" ToolTip="Wenn aktiviert, werden nur Items angezeigt, bei denen die Übersetzung fehlt!" />
+                    </fluent:RibbonGroupBox>
+                    <fluent:RibbonGroupBox Header="Verwaltung">
+                        <fluent:Button x:Name="ButtonMenuAddNewPage" Click="ButtonMenuAddNewPage_Click" Header="Neue Seite hinzufügen" LargeIcon="/resources/icons/add_page.png" />
+                        <fluent:Button x:Name="MenuButtonScopeAdd" Click="MenuPageScopeAddClick_Click" Header="Neuen Bereich hinzufügen" LargeIcon="/resources/icons/add_scope.png" />
+                        <fluent:Button x:Name="MenuButtonAdd" Click="MenuButtonAdd_Click"  Header="Neues Item hinzufügen" LargeIcon="/resources/icons/add_item.png" />
+                    </fluent:RibbonGroupBox>
+                </fluent:RibbonTabItem>
+                <fluent:RibbonTabItem x:Name="TabBlogs" Header="Blogs">
+                    <fluent:RibbonGroupBox Header="Sprache auswählen">
+                        <fluent:DropDownButton x:Name="MenuLanguages" Header="{Binding CurrentSelectedBlogLanguage.LangCode}" LargeIcon="{Binding CurrentSelectedBlogLanguage.Flag}">
+                            <fluent:DropDownButton.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Background="Transparent" Orientation="Horizontal" MouseDown="StackPanel_MouseDown">
+                                        <Image Source="{Binding Flag}" Width="32" />
+                                        <TextBlock Text="{Binding Name}" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </fluent:DropDownButton.ItemTemplate>
+                        </fluent:DropDownButton>
+                    </fluent:RibbonGroupBox>
+                    <fluent:RibbonGroupBox Header="Blog Artikel verwalten">
+                        <fluent:Button x:Name="ButtonAddBlog" Click="ButtonAddBlog_Click" Header="Blog hinzufügen" LargeIcon="/resources/icons/add.png" />
+                        <fluent:Button x:Name="ButtonDeleteBlog" Click="ButtonDeleteBlog_Click" Header="Blog löschen" LargeIcon="/resources/icons/remove.png" IsEnabled="False" />
+                        <fluent:Button x:Name="ButtonEditBlog" IsEnabled="False" Click="ButtonEditBlog_Click" Header="Blog bearbeiten" LargeIcon="/resources/icons/edit.png" />
+                        <controls:DropDownToggleButton x:Name="ButtonTranslateBlog" IsEnabled="False" Header="Blog übersetzen">
+                            <controls:DropDownToggleButton.LargeIcon>
+                                <Viewbox Width="32" Height="32">
+                                    <Image Source="pack://application:,,,/Translator;component/resources/icons/translate.png"/>
+                                </Viewbox>
+                            </controls:DropDownToggleButton.LargeIcon>
+                        </controls:DropDownToggleButton>
+                    </fluent:RibbonGroupBox>
+                    <fluent:RibbonGroupBox Header="Blog bearbeiten">
+                        <fluent:Button x:Name="ButtonCheckForInvalidUrls" Click="ButtonCheckForInvalidUrls_Click" Header="URLs validieren" ToolTip="Prüft alle Urls aus dem ausgewählten Blog und meldet Fehler, sofern welche vorhanden sind!" LargeIcon="/resources/icons/url.png" />
+                        <fluent:Button x:Name="ButtonEditOrAddBlog" Click="ButtonEditOrAddBlog_Click" Header="Bearbeiten beenden" LargeIcon="/resources/icons/save.png" />
+                    </fluent:RibbonGroupBox>
+                    <fluent:RibbonGroupBox Header="Blog Vorschau">
+                        <fluent:Button x:Name="ButtonRefreshPreview" Click="ButtonRefreshPreview_Click"  Header="Vorschau aktualisieren" LargeIcon="/resources/icons/refresh.png"  />
+                        <fluent:Button x:Name="ButtonNewPreviewWindow" Click="ButtonNewPreviewWindow_Click" Header="Neues Fenster" ToolTip="Öffnet ein neues Fenster mit der Blog Vorschau" LargeIcon="/resources/icons/popup.png" />
+                    </fluent:RibbonGroupBox>
+                </fluent:RibbonTabItem>
+                <fluent:RibbonTabItem x:Name="TabTags" Header="Tags">
+                    <fluent:RibbonGroupBox Header="Verwalten">
+                        <fluent:Button x:Name="ButtonCreateTag" Click="ButtonCreateTag_Click"  LargeIcon="/resources/icons/tag/tag_add.png" Header="Neu" />
+                        <fluent:Button x:Name="ButtonEditTag" Click="ButtonEditTag_Click" LargeIcon="/resources/icons/tag/tag_edit.png" Header="Bearbeiten" />
+                        <fluent:Button x:Name="ButtonRemoveTag" Click="ButtonRemoveTag_Click" LargeIcon="/resources/icons/tag/tag_remove.png" Header="Löschen" />
+                    </fluent:RibbonGroupBox>
+                </fluent:RibbonTabItem>
+            </fluent:Ribbon>
+
+            <TabControl x:Name="TabControlMain" Background="{DynamicResource WhiteBrush}" SelectionChanged="TabControlMain_SelectionChanged" Grid.Row="1">
+                <TabControl.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="resources/TabControlStyle.xaml"/>
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </TabControl.Resources>
+                <TabItem Background="{DynamicResource WhiteBrush}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="20">
+                            <Image Source="resources/icons/content.png" Width="16" />
+                            <TextBlock Margin="5,0,0,0" Text="Text-Inhalt" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid x:Name="GridMain">
+                        <Grid.Resources>
+                            <ContextMenu x:Key="AddPageContextMenu">
+                                <MenuItem Header="Seite hinzufügen" x:Name="MenuAddPage" Click="MenuAddPage_Click">
+                                    <MenuItem.Icon>
+                                        <Image Source="/resources/icons/add.png" RenderOptions.BitmapScalingMode="Fant" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Grid.Resources>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="4*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <TextBlock Margin="2" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource BlackBrush}">
+                                    <Run Text="Seiten:" />
+                                    <Run x:Name="TextPageCount" Text="0" />
+                                </TextBlock>
+                            </StackPanel>
+
+                            <TreeView x:Name="TreeViewLangItems" SelectedItemChanged="TreeViewLangItems_SelectedItemChanged" Grid.Row="1" ContextMenu="{StaticResource AddPageContextMenu}" PreviewMouseDown="TreeViewLangItems_PreviewMouseDown" Background="{DynamicResource WhiteBrush}">
+                                <TreeView.Resources>
+                                    <local:ScopeNameToIconConverter x:Key="scopeNameToIconConverter" />
+                                    <local:ScopeToToolTipConverter x:Key="scopeToToolTipConverter" />
+
+                                    <ContextMenu x:Key="PageChildContextMenu">
+                                        <MenuItem x:Name="MenuButtonEditPage" Click="MenuButtonEditPage_Click" Header="Seite bearbeiten">
+                                            <MenuItem.Icon>
+                                                <Image Source="/resources/icons/edit.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Seite entfernen" x:Name="MenuPageRemovePageClick" Click="MenuPageRemovePageClick_Click">
+                                            <MenuItem.Icon>
+                                                <Image Source="/resources/icons/remove.png" RenderOptions.BitmapScalingMode="Fant" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Bereich einfügen" x:Name="MenuPageScopeAddClick" Click="MenuPageScopeAddClick_Click">
+                                            <MenuItem.Icon>
+                                                <Image Source="/resources/icons/add.png" RenderOptions.BitmapScalingMode="Fant" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                    <ContextMenu x:Key="ScopeChildContextMenu">
+                                        <MenuItem Header="Item hinzufügen" x:Name="MenuItemAdd" Click="MenuItemAdd_Click">
+                                            <MenuItem.Icon>
+                                                <Image Source="/resources/icons/add.png" RenderOptions.BitmapScalingMode="Fant" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem x:Name="MenutButtonEditScope" Click="MenutButtonEditScope_Click" Header="Bereich bearbeiten">
+                                            <MenuItem.Icon>
+                                                <Image Source="/resources/icons/edit.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Bereich entfernen" x:Name="MenuScopeRemove" Click="MenuScopeRemove_Click">
+                                            <MenuItem.Icon>
+                                                <Image Source="/resources/icons/remove.png" RenderOptions.BitmapScalingMode="Fant" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                    <ContextMenu x:Key="ItemMenu">
+                                        <MenuItem Header="Bearbeiten">
+                                            <MenuItem.Icon>
+                                                <Image Source="/resources/icons/edit.png" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem x:Name="ButtonDeleteItem" Click="ButtonDeleteItem_Click" Header="Löschen">
+                                            <MenuItem.Icon>
+                                                <Image Source="/resources/icons/remove.png" RenderOptions.BitmapScalingMode="Fant" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+
+                                    <HierarchicalDataTemplate DataType="{x:Type model:PageViewModel}" ItemsSource="{Binding ScopesAll}">
+                                        <StackPanel>
+                                            <StackPanel Background="Transparent" Orientation="Horizontal" ContextMenu="{StaticResource PageChildContextMenu}">
+                                                <Image Source="/resources/icons/page.png" Width="20" Margin="0,0,5,0" />
+                                                <TextBlock Text="{Binding DisplayName}" FontSize="16" FontFamily="Segoe UI Light" Padding="2" Foreground="{DynamicResource BlackBrush}" Margin="0,0,5,5" FontWeight="Regular" TextAlignment="Center" VerticalAlignment="Center" />
+                                            </StackPanel>
+                                            <Separator Width="{Binding ElementName=TreeViewLangItems, Path=ActualWidth, Converter={StaticResource widthWithMarginConverter}, ConverterParameter=50}" />
+                                        </StackPanel>
+
+                                        <HierarchicalDataTemplate.ItemTemplate>
+                                            <HierarchicalDataTemplate DataType="{x:Type model:ScopeViewModel}" ItemsSource="{Binding Items}">
+                                                <StackPanel Background="Transparent" Orientation="Horizontal" ContextMenu="{StaticResource ScopeChildContextMenu}" ToolTip="{Binding ., Converter={StaticResource scopeToToolTipConverter}}">
+                                                    <Image Source="{Binding ., Converter={StaticResource scopeNameToIconConverter}}" Width="20" Margin="0,0,5,0" />
+                                                    <TextBlock Text="{Binding DisplayName}" FontSize="16" FontFamily="Segoe UI Light" FontWeight="Bold" Foreground="{DynamicResource BlackBrush}" Margin="0,0,5,5" Padding="2" TextAlignment="Center" VerticalAlignment="Center"  />
+                                                </StackPanel>
+
+                                                <HierarchicalDataTemplate.ItemTemplate>
+                                                    <DataTemplate DataType="{x:Type model:PageViewModel}">
+                                                        <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource ItemMenu}">
+                                                            <Image Source="/resources/icons/key.png" Width="20" Margin="0,0,5,0" />
+                                                            <TextBlock Text="{Binding Key}" FontSize="16" FontFamily="Segoe UI Light" Foreground="{DynamicResource BlackBrush}" Padding="2" Margin="0,0,5,5" TextAlignment="Center" VerticalAlignment="Center" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </HierarchicalDataTemplate.ItemTemplate>
+                                            </HierarchicalDataTemplate>
+                                        </HierarchicalDataTemplate.ItemTemplate>
+                                    </HierarchicalDataTemplate>
+                                </TreeView.Resources>
+                                <TreeView.ItemContainerStyle>
+                                    <Style TargetType="{x:Type TreeViewItem}">
+                                        <Style.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#AF0C70F2" />
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#AF0C70F2" />
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
+                                        </Style.Resources>
+                                        <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
+                                        <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+                                    </Style>
+                                </TreeView.ItemContainerStyle>
+                            </TreeView>
+                        </Grid>
+                        <Grid Grid.Column="1" Margin="5,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <TextBlock Margin="2" FontWeight="Bold" FontSize="14" Text="Items:" Foreground="{DynamicResource BlackBrush}" />
+                            </StackPanel>
+
+                            <Border BorderBrush="Gray" Grid.Row="1"  BorderThickness="1">
+                                <ScrollViewer Background="{DynamicResource WhiteBrush}">
+                                    <StackPanel x:Name="TranslationItems" />
+                                </ScrollViewer>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Background="{DynamicResource WhiteBrush}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Source="resources/icons/blog.png" Width="16" />
+                            <TextBlock Margin="5,0,0,0" Text="Blogs" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Border Background="{DynamicResource WhiteBrush}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="400" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <ListBox x:Name="ListBlogs" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListBlogs_SelectionChanged" Background="Transparent" Style="{DynamicResource ListBoxDefaultStyle}" />
+
+                            <Grid Background="Transparent" Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border BorderThickness="0" Grid.Column="1" Margin="5,0,0,0" Background="{DynamicResource WhiteBrush}">
+                                    <Grid IsEnabled="True">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Margin="2">
+                                            <Grid.Resources>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                </Style>
+                                            </Grid.Resources>
+
+                                            <TabControl x:Name="TabControlEdit" SelectionChanged="TabControlEdit_SelectionChanged" Grid.Row="1" Background="{DynamicResource WhiteBrush}">
+                                                <TabControl.Resources>
+                                                    <ResourceDictionary>
+                                                        <ResourceDictionary.MergedDictionaries>
+                                                            <ResourceDictionary Source="resources/TabControlStyle.xaml"/>
+                                                        </ResourceDictionary.MergedDictionaries>
+                                                    </ResourceDictionary>
+                                                </TabControl.Resources>
+                                                <TabItem Header="Eigenschaften" Background="{DynamicResource WhiteBrush}">
+                                                    <ScrollViewer>
+                                                        <StackPanel x:Name="PanelProperties">
+                                                            <StackPanel.Resources>
+                                                                <Style TargetType="{x:Type TextBlock}">
+                                                                    <Setter Property="Margin" Value="2,8,2,2" />
+                                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                                </Style>
+                                                                <Style TargetType="{x:Type TextBox}">
+                                                                    <Setter Property="Padding" Value="3" />
+                                                                    <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+                                                                    <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+                                                                </Style>
+                                                            </StackPanel.Resources>
+
+                                                            <TextBlock Text="Titel:" Margin="2,2,2,2" />
+                                                            <TextBox x:Name="TextBlogTitle" TextChanged="TextBlogTitle_TextChanged" Padding="3" />
+
+                                                            <TextBlock Text="Vorschautext:" Margin="2" />
+                                                            <TextBox x:Name="TextBlogPreview" AcceptsReturn="True" Height="135" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Padding="3" />
+
+                                                            <CheckBox x:Name="CheckOwnUrlName" Checked="CheckOwnUrlName_Checked" Unchecked="CheckOwnUrlName_Checked" Margin="2,5,5,3" Content="Eigenen URL-Name verwenden" FontWeight="Bold"  Foreground="{DynamicResource BlackBrush}" />
+                                                            <TextBlock Text="Urlname (z.B. instazoom-zukuenftig-schnell-und-sicher-nutzen):"/>
+                                                            <TextBox x:Name="TextUrlName" IsEnabled="{Binding ElementName=CheckOwnUrlName, Path=IsChecked}" Padding="3" />
+
+                                                            <TextBlock Text="Blog-ID:" />
+                                                            <TextBox x:Name="TextBlogID" IsReadOnly="True" />
+
+                                                            <TextBlock Text="Veröffentlicht von:" />
+                                                            <TextBox x:Name="TextBlogPublisherName" />
+
+                                                            <TextBlock Text="Veröffentlichungs-Datum:"/>
+                                                            <DatePicker x:Name="DateBlogPublished" />
+
+                                                            <TextBlock Text="Meta-Beschreibung:"  />
+                                                            <TextBox x:Name="TextBlogMetaDescription"/>
+
+                                                            <TextBlock Text="Meta-Schlüsselwörter:" />
+                                                            <controls:StringListControl x:Name="Keywords" />
+
+                                                            <TextBlock Text="Tags:" />
+                                                            <controls:TagListControl x:Name="Tags" />
+
+                                                            <TextBlock Text="HTML &lt;img alt&gt;-Tag"/>
+                                                            <TextBox x:Name="TextBlogAltText" />
+
+                                                            <TextBlock Text="Blog Bild:" />
+                                                            <controls:AddImageControl x:Name="BlogImage" ImageAdded="AddImageControl_ImageAdded" />
+                                                        </StackPanel>
+                                                    </ScrollViewer>
+                                                </TabItem>
+                                                <TabItem Header="Bloginhalt (HTML)" Background="{DynamicResource WhiteBrush}">
+                                                    <Grid>
+                                                        <controls:TextEditor x:Name="TextBlogContent" IsReadOnly="True" UseBlogs="True" />
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="Vorschau (HTML)">
+                                                    <wv2:WebView2 Grid.Row="0" x:Name="Browser" Loaded="Browser_Loaded"  />
+                                                </TabItem>
+                                            </TabControl>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </TabItem>
+                <TabItem Background="{DynamicResource WhiteBrush}">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Source="resources/icons/tag.png" Width="16" />
+                            <TextBlock Margin="5,0,0,0" Text="Tags" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ListBox x:Name="ListTags" SelectionChanged="ListTags_SelectionChanged" Width="300" Background="Transparent" Style="{DynamicResource ListBoxDefaultStyle}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Image Source="/resources/icons/tag.png" Width="32" />
+                                        <TextBlock Margin="5,0,0,0" Text="{Binding Name}" Foreground="{DynamicResource BlackBrush}" FontWeight="Bold" FontSize="13" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Grid x:Name="TabHolder" Visibility="Collapsed" Grid.Column="1" Background="{DynamicResource WhiteBrush}">
+                            <ScrollViewer>
+                                <StackPanel Margin="2">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Margin" Value="2,8,2,2" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </Style>
+                                        <Style TargetType="{x:Type TextBox}">
+                                            <Setter Property="Padding" Value="3" />
+                                            <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+                                            <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+                                        </Style>
+                                    </StackPanel.Resources>
+
+                                    <TextBlock Text="Tag:" />
+                                    <TextBox x:Name="TextTagElementName" Padding="3" />
+
+                                    <TextBlock Text="Bild:" />
+                                    <controls:AddImageControl x:Name="ImageControlTag" ImageAdded="ImageControlTag_ImageAdded" />
+
+                                    <TextBlock Text="Eigenschaften:" Margin="2,2,2,2" />
+                                    <controls:TranslationItem x:Name="TranslationTagName"  Margin="0,10,0,0"  />
+                                    <controls:TranslationItem x:Name="TranslationTagDescription" />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+
+            <GridSplitter x:Name="GridLogSplitter" Panel.ZIndex="1000" Background="Transparent" Grid.Row="2" BorderThickness="1" Height="16" HorizontalAlignment="Stretch" Style="{StaticResource GridSplitterStyle1}" />
+
+            <TabControl x:Name="TabControlLog" Margin="0,-15,0,0" Grid.Row="3" Visibility="Visible" Background="{DynamicResource WhiteBrush}">
+                <TabControl.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="resources\TabControlStyle.xaml"/>
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </TabControl.Resources>
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="20">
+                            <Image Source="resources/icons/log.png" Width="16" />
+                            <TextBlock Margin="5,0,0,0" Text="Protokoll" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <ScrollViewer x:Name="LogScrollViewer">
+                        <FlowDocumentScrollViewer x:Name="LogHolder" PreviewMouseWheel="LogHolder_PreviewMouseWheel" VerticalScrollBarVisibility="Auto"  />
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</fluent:RibbonWindow>

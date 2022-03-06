@@ -1,0 +1,135 @@
+﻿<Window x:Class="Translator.Controls.Dialogs.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Translator.Controls.Dialogs" xmlns:fluent="urn:fluent-ribbon"
+        mc:Ignorable="d"
+        xmlns:controlzEx="urn:controlzex"
+        Title="Einstellungen" SizeToContent="Width" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Height="450"
+        Background="{DynamicResource WhiteBrush}">    
+    <Grid Width="350">
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+                <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+                <Setter Property="Margin" Value="2" />
+                <Setter Property="Padding" Value="2" />
+            </Style>
+            <Style TargetType="{x:Type PasswordBox}">
+                <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+                <Setter Property="Background" Value="{DynamicResource WhiteBrush}" />
+                <Setter Property="Margin" Value="2" />
+                <Setter Property="Padding" Value="2" />
+            </Style>
+            <Style TargetType="{x:Type fluent:ComboBox}">
+                <Setter Property="Margin" Value="-8,2,2,2" />
+                <Setter Property="Padding" Value="2" />
+            </Style>
+        </Grid.Resources>
+        <TabControl Margin="2" Background="{DynamicResource WhiteBrush}">
+            <TabControl.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="../../resources/TabControlStyle.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </TabControl.Resources>
+            <TabItem Header="Allgemein">
+                <StackPanel Margin="2,0,2,0">
+                    <TextBlock Text="Translator API:" />
+                    <fluent:ComboBox x:Name="CmbTranslatorAPI" SelectionChanged="CmbTranslatorAPI_SelectionChanged" IsEditable="False" SelectedIndex="0">
+                        <fluent:ComboBox.Items>
+                            <ComboBoxItem>DeepL (Google Cloud Translation als Fallback)</ComboBoxItem>
+                            <ComboBoxItem>DeepL (Google Free als Fallback)</ComboBoxItem>
+                            <ComboBoxItem>Nur Google Cloud Translation</ComboBoxItem>
+                            <ComboBoxItem>Nur Google Free Translation</ComboBoxItem>
+                            <ComboBoxItem>Nur DeepL (nicht empfohlen)</ComboBoxItem>
+                        </fluent:ComboBox.Items>
+                    </fluent:ComboBox>
+
+                    <TextBlock Text="Log-Level:" />
+                    <fluent:ComboBox x:Name="CmbSelectLogLevel" SelectionChanged="CmbSelectLogLevel_SelectionChanged" IsEditable="False" SelectedIndex="0">
+                        <fluent:ComboBox.Items>
+                            <ComboBoxItem>Produktion</ComboBoxItem>
+                            <ComboBoxItem>Alles</ComboBoxItem>
+                            <ComboBoxItem>Nur Warnungen und Fehler</ComboBoxItem>
+                            <ComboBoxItem>Log deaktivieren</ComboBoxItem>
+                        </fluent:ComboBox.Items>
+                    </fluent:ComboBox>
+
+                    <TextBlock Text="Darstellung:" />
+                    <fluent:ComboBox IsEditable="False" SelectedIndex="0" x:Name="CheckBoxDisplayMode" SelectionChanged="CheckBoxDisplayMode_SelectionChanged">
+                        <ComboBox.Items>
+                            <ComboBoxItem Content="Hell" />
+                            <ComboBoxItem Content="Dunkel" />
+                        </ComboBox.Items>
+                    </fluent:ComboBox>
+
+                    <TextBlock Text="Akzentfarbe:" />
+                    <fluent:ComboBox x:Name="ComboBoxThemeChooser" SelectionChanged="ComboBoxThemeChooser_SelectionChanged" MinWidth="150" Margin="-9,0,0,0" IsEditable="False" ItemsSource="{Binding Themes}">
+                        <fluent:ComboBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type controlzEx:Theme}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="16" Height="16" Fill="{Binding ShowcaseBrush, Mode=OneWay}" />
+                                    <TextBlock Margin="5,0,0,0" Text="{Binding DisplayName}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </fluent:ComboBox.ItemTemplate>
+                    </fluent:ComboBox>
+
+                    <CheckBox x:Name="CheckBoxThemeIsColorful" Foreground="{DynamicResource BlackBrush}"  Content="Akzentfarbe in der Titelleiste anzeigen" Checked="CheckBoxThemeIsColorful_Checked"  Unchecked="CheckBoxThemeIsColorful_Checked" Margin="0,8,0,0" />
+                    <CheckBox x:Name="CheckHideApprovementFeature" Foreground="{DynamicResource BlackBrush}" Content="Häkchen 'Fertig' bei den Übersetzungen ausblenden" Margin="0,8,0,0" Checked="CheckHideApprovementFeature_Checked" Unchecked="CheckHideApprovementFeature_Checked" />
+                    <CheckBox x:Name="CheckOpenLastProjectOnStartup" Foreground="{DynamicResource BlackBrush}" Content="Zuletzt geöffnetes Projekt beim Starten öffnen" Margin="0,8,0,0" Checked="CheckOpenLastProjectOnStartup_Checked" Unchecked="CheckOpenLastProjectOnStartup_Checked" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Projekt">
+                <StackPanel>
+                    <TextBlock Text="Projekt-Url (ohne WWW):" />
+                    <TextBox x:Name="TextProjectUrl" TextChanged="TextProjectUrl_TextChanged"/>
+
+                    <TextBlock Text="Hauptsprache (Ihre Muttersprache, z.B. de|en|fr):" />
+                    <TextBox x:Name="TextMainLanguage" TextChanged="TextMainLanguage_TextChanged" />
+
+                    <TextBlock Text="DeepL-API-Key (sofern vorhanden):" />
+                    <TextBox x:Name="TextDeepLAPIKey" TextChanged="TextDeepLAPIKey_TextChanged" />
+
+                    <TextBlock Text="Google Cloud Project ID (sofern vorhanden):" />
+                    <TextBox x:Name="TextGoogleCloudProjectID" TextChanged="TextGoogleCloudProjectID_TextChanged" />
+
+                    <TextBlock Text="Telegram Protocol API Url (sofern vorhanden):" />
+                    <TextBox x:Name="TextTelegramProtocolSendUrl" TextChanged="TextTelegramProtocolSendUrl_TextChanged" />
+
+                    <TextBlock Text="String-Format Bezeichner" />
+                    <TextBox x:Name="TextStringFormat" Text="%s" TextChanged="TextStringFormat_TextChanged" />
+
+                    <TextBlock Text="Zeichen, das durch %s beim Übersetzen ersetzt wird (Mehr)" ToolTip="%s kann beim Übersetzen leider manchmal kaputt gehen, sodass etwas anderes herauskommt. Wird es aber während des Übersetzens z.B. mit ~ ersetzt und nachher wieder zurückersetzt, so klappt es!" />
+                    <TextBox x:Name="TextStringReplaceKey" Text="~" TextChanged="TextStringReplaceKey_TextChanged" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="FTP Verbindung (Text Upload)">
+                <StackPanel Margin="2,0,2,0">
+                    <TextBlock Text="Host:" />
+                    <TextBox x:Name="TextFTPServer" TextChanged="TextWorkspacePath_TextChanged" Padding="3"/>
+
+                    <TextBlock Text="Benutzername:" Margin="0,5,0,0" />
+                    <TextBox x:Name="TextFTPUsername" TextChanged="TextWorkspacePath_TextChanged" Padding="3"/>
+
+                    <TextBlock Text="Passwort:"  Margin="0,5,0,0" />
+                    <PasswordBox x:Name="TextFTPPassword" PasswordChanged="TextFTPPassword_PasswordChanged" Padding="3"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="ButtonOK" Click="ButtonOK_Click" Content="OK" Width="100" FontWeight="Bold" Padding="3" Margin="0,5,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
