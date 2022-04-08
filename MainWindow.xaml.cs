@@ -30,6 +30,7 @@ using System.Windows.Threading;
 using Language = Translator.Model.Language;
 using Microsoft.Web.WebView2.Core;
 using Translator.Model.Tags;
+using HtmlAgilityPack;
 
 namespace Translator
 {
@@ -2204,8 +2205,72 @@ namespace Translator
 
         #region Report
 
+        private int CountWords(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return 0;
+
+            return input.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length;
+        }
+
+        private int CountHtmlWords(string html)
+        {
+            // HTML
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(html);
+
+            HtmlNode scriptNode = null;
+            int counter = 0;
+            foreach (var node in document.DocumentNode.DescendantsAndSelf())
+            {
+                if (node.Name == "script")
+                {
+                    scriptNode = node;
+                    continue;
+                }
+
+                if (scriptNode != null && scriptNode.ChildNodes.Contains(node))
+                    continue;
+
+                if (node.ChildNodes.Count == 0 && node.InnerHtml.Trim().Length > 0)
+                    counter += CountWords(node.InnerHtml.Trim());
+            }
+
+            return counter;
+        }
+    
+
+        private int CountWords()
+        {
+            if (Project.CurrentProject == null)
+                return 0;
+
+            int result = 0;
+            foreach (var item in Project.CurrentProject.Items)
+            {
+                string content = item.Translate("en");
+
+                // Ignore changelog
+                if (item.IsMultiLineText &&
+                    item.Key == "data" &&
+                    item.DPages.Contains(Project.CurrentProject.Pages.FirstOrDefault(p => p.Name == "changelog")))
+                    continue;
+
+                if (item.IsMultiLineText)
+                    result += CountHtmlWords(content);
+                else 
+                    result += CountWords(content);
+            }
+
+            return result;
+        }
+
         private void ButtonGenerateReport_Click(object sender, RoutedEventArgs e)
         {
+            int result = CountWords();
+
+            MessageBox.Show("Wörter (ohne Blog Artikel): " + result, "Ergebnis", MessageBoxButton.OK, MessageBoxImage.Information);
+
             // Check blogs
             var assoc = Project.CurrentProject.BlogItems.FirstOrDefault(p => p.LangCode == Project.CurrentProject.MainLanguage);
 
