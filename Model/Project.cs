@@ -121,6 +121,13 @@ namespace Translator.Model
                         OnProjectChanged?.Invoke();
                         Logger.LogInformation($"Das Projekt \"{CurrentProject.Name}\" wurde erfolgreich geladen!", "ProjectLoader");
                         result = true;
+
+#if TRANSLATOR
+                        Consts.SupportedLanguages.Clear();
+#if NL
+                        Consts.AddLanguage("nl");
+#endif
+#endif
                     }
                 }
                 catch

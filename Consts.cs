@@ -1,6 +1,7 @@
 ﻿using Translator.Model;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Translator
 {
@@ -39,11 +40,18 @@ namespace Translator
         {
             // If we want to compile a translator version just call AddLanguages with all languages
             // e.g. for en: AddLanguage("de"); AddLanguage("en");
+#if NL
+
+            AddLanguage("nl");
+#endif
         }
 
-        private static void AddLanguage(string code)
+        public static void AddLanguage(string code)
         {
             if (SupportedLanguages.Any(x => x.LangCode == code))
+                return;
+
+            if (Project.CurrentProject == null)
                 return;
 
             if (!Project.CurrentProject.Languages.Any(x => x.LangCode == code))
