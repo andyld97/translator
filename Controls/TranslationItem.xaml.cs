@@ -13,7 +13,7 @@ namespace Translator.Controls
         private Page currentPage = null;
         private Item currentItem = null;
 
-        private List<SingleTranslation> singleTranslations = new List<SingleTranslation>();
+        private readonly List<SingleTranslation> singleTranslations = new List<SingleTranslation>();
 
         public TranslationItem()
         {

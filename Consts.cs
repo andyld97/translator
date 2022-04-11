@@ -39,7 +39,8 @@ namespace Translator
         static Consts()
         {
             // If we want to compile a translator version just call AddLanguages with all languages
-            // e.g. for en: AddLanguage("de"); AddLanguage("en");
+            // e.g. for en: AddLanguage("de"); AddLanguage("en")
+            AddLanguage("en");
 #if NL
 
             AddLanguage("nl");

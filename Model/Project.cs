@@ -124,6 +124,7 @@ namespace Translator.Model
 
 #if TRANSLATOR
                         Consts.SupportedLanguages.Clear();
+                        Consts.AddLanguage("en");
 #if NL
                         Consts.AddLanguage("nl");
 #endif
