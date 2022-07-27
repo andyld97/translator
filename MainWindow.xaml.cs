@@ -61,7 +61,7 @@ namespace Translator
                 if (value != currentBlogLanguage)
                 {
                     currentBlogLanguage = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentSelectedBlogLanguage"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSelectedBlogLanguage)));
                     RefreshBlogs();
                 }
             }
@@ -153,14 +153,15 @@ namespace Translator
 
                     count++;
                 }
+                ShowStartMessage();
                 return;
             }
+            else
+                ShowStartMessage();
 
             //MenuButtonTexterUpload.IsEnabled = false;
 
             // Ensure that old images are named corretly
-            Logger.LogInformation($"Translator (v{typeof(MainWindow).Assembly.GetName().Version.ToString(4)}) ist gestartet!", "Main");
-
             if (Project.CurrentProject != null)
             {
                 Logger.LogInformation("Prüfe auf fehlerhafte Blog-Bilder ...", "Main");
@@ -186,6 +187,11 @@ namespace Translator
 
             var webView2Envoirnment = await CoreWebView2Environment.CreateAsync(null, Consts.WebView2CachePath);
             await Browser.EnsureCoreWebView2Async(webView2Envoirnment);
+        }
+
+        private void ShowStartMessage()
+        {
+            Logger.LogInformation($"Translator (v{typeof(MainWindow).Assembly.GetName().Version.ToString(4)}) ist gestartet!", "Main");
         }
 
         #endregion

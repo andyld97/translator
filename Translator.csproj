@@ -29,7 +29,7 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;PORT;TRANSLATOR;NL</DefineConstants>
+    <DefineConstants>TRACE;PORT;NL</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
@@ -351,7 +351,7 @@
     <StartupObject></StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants)TRACE;TRANSLATOR;NL</DefineConstants>
+    <DefineConstants>$(DefineConstants)TRACE;NL</DefineConstants>
   </PropertyGroup>
   <Import Project="..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Import Project="..\..\packages\Grpc.Core.2.38.1\build\net45\Grpc.Core.targets" Condition="Exists('..\..\packages\Grpc.Core.2.38.1\build\net45\Grpc.Core.targets')" />
