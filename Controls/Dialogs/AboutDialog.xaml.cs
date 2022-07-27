@@ -22,6 +22,8 @@ namespace Translator.Controls.Dialogs
 
             TextVersion.Text = typeof(AboutDialog).Assembly.GetName().Version.ToString();
             TextReleaseDate.Text = $"{Consts.ReleaseDate:g} Uhr";
+
+            TextDotNetVersion.Text = System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
             Loaded += AboutDialog_Loaded;
         }
 

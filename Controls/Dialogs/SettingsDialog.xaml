@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:Translator.Controls.Dialogs" xmlns:fluent="urn:fluent-ribbon"
         mc:Ignorable="d"
         xmlns:controlzEx="urn:controlzex"
-        Title="Einstellungen" SizeToContent="Width" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Title="Einstellungen" Width="650" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Height="450"
-        Background="{DynamicResource WhiteBrush}">    
-    <Grid Width="350">
+        Background="{DynamicResource WhiteBrush}">
+    <Grid Background="{DynamicResource TabControl.Background}">
         <Grid.Resources>
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="Margin" Value="1" />
@@ -34,7 +34,7 @@
                 <Setter Property="Padding" Value="2" />
             </Style>
         </Grid.Resources>
-        <TabControl Margin="2" Background="{DynamicResource WhiteBrush}">
+        <TabControl Margin="2" Padding="0" BorderThickness="0" Background="{DynamicResource WhiteBrush}">
             <TabControl.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
@@ -42,7 +42,7 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </TabControl.Resources>
-            <TabItem Header="Allgemein">
+            <TabItem Header="Allgemein" Width="200">
                 <StackPanel Margin="2,0,2,0">
                     <TextBlock Text="Translator API:" />
                     <fluent:ComboBox x:Name="CmbTranslatorAPI" SelectionChanged="CmbTranslatorAPI_SelectionChanged" IsEditable="False" SelectedIndex="0">
@@ -74,7 +74,7 @@
                     </fluent:ComboBox>
 
                     <TextBlock Text="Akzentfarbe:" />
-                    <fluent:ComboBox x:Name="ComboBoxThemeChooser" SelectionChanged="ComboBoxThemeChooser_SelectionChanged" MinWidth="150" Margin="-9,0,0,0" IsEditable="False" ItemsSource="{Binding Themes}">
+                    <fluent:ComboBox x:Name="ComboBoxThemeChooser" SelectionChanged="ComboBoxThemeChooser_SelectionChanged" MinWidth="150" IsEditable="False" ItemsSource="{Binding Themes}">
                         <fluent:ComboBox.ItemTemplate>
                             <DataTemplate DataType="{x:Type controlzEx:Theme}">
                                 <StackPanel Orientation="Horizontal">
@@ -90,7 +90,7 @@
                     <CheckBox x:Name="CheckOpenLastProjectOnStartup" Foreground="{DynamicResource BlackBrush}" Content="Zuletzt geöffnetes Projekt beim Starten öffnen" Margin="0,8,0,0" Checked="CheckOpenLastProjectOnStartup_Checked" Unchecked="CheckOpenLastProjectOnStartup_Checked" />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Projekt">
+            <TabItem Header="Projekt" Width="200">
                 <StackPanel>
                     <TextBlock Text="Projekt-Url (ohne WWW):" />
                     <TextBox x:Name="TextProjectUrl" TextChanged="TextProjectUrl_TextChanged"/>
@@ -114,7 +114,7 @@
                     <TextBox x:Name="TextStringReplaceKey" Text="~" TextChanged="TextStringReplaceKey_TextChanged" />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="FTP Verbindung (Text Upload)">
+            <TabItem Header="FTP Verbindung (Text Upload)" Width="200">
                 <StackPanel Margin="2,0,2,0">
                     <TextBlock Text="Host:" />
                     <TextBox x:Name="TextFTPServer" TextChanged="TextWorkspacePath_TextChanged" Padding="3"/>
@@ -126,7 +126,7 @@
                     <PasswordBox x:Name="TextFTPPassword" PasswordChanged="TextFTPPassword_PasswordChanged" Padding="3"/>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="ButtonOK" Click="ButtonOK_Click" Content="OK" Width="100" FontWeight="Bold" Padding="3" Margin="0,5,0,0" />
+                        <Button x:Name="ButtonOK" Click="ButtonOK_Click" Content="OK" Width="100" FontWeight="Bold" Padding="3" Margin="0,5,2,0" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>

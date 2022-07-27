@@ -13,6 +13,8 @@
         <BooleanToVisibilityConverter x:Key="booleanToVisibiltyConverter" />
         <local:VisibilityToLogToggleConverter x:Key="visibilityToLogToggleConverter" />
         <local:WidthWithMarginConverter x:Key="widthWithMarginConverter" />
+        <local:BoolToBoldConverter x:Key="boolToBoldConverter" />
+        
         <Style x:Key="{x:Type ContextMenu}" TargetType="{x:Type ContextMenu}">
             <Setter Property="Foreground" Value="{DynamicResource BlackBrush}"/>
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -73,7 +75,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <DockPanel x:Name="MainDockPanel">
+    <DockPanel x:Name="MainDockPanel" Background="{DynamicResource TabControl.Background}">
         <DockPanel.Resources>
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
@@ -222,7 +224,7 @@
                 </fluent:RibbonTabItem>
             </fluent:Ribbon>
 
-            <TabControl x:Name="TabControlMain" Background="{DynamicResource WhiteBrush}" SelectionChanged="TabControlMain_SelectionChanged" Grid.Row="1">
+            <TabControl x:Name="TabControlMain" BorderThickness="0" Padding="0" SelectionChanged="TabControlMain_SelectionChanged" Grid.Row="1">
                 <TabControl.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
@@ -230,14 +232,14 @@
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </TabControl.Resources>
-                <TabItem Background="{DynamicResource WhiteBrush}">
+                <TabItem x:Name="TabCntrl" Background="{DynamicResource WhiteBrush}" Width="150">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="20">
                             <Image Source="resources/icons/content.png" Width="16" />
-                            <TextBlock Margin="5,0,0,0" Text="Text-Inhalt" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
+                            <TextBlock FontWeight="{Binding ElementName=TabCntrl, Path=IsSelected, Converter={StaticResource boolToBoldConverter}}" Margin="5,0,0,0" Text="Text-Inhalt" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
                         </StackPanel>
                     </TabItem.Header>
-                    <Grid x:Name="GridMain">
+                    <Grid x:Name="GridMain" Background="{DynamicResource WhiteBrush}">
                         <Grid.Resources>
                             <ContextMenu x:Key="AddPageContextMenu">
                                 <MenuItem Header="Seite hinzufügen" x:Name="MenuAddPage" Click="MenuAddPage_Click">
@@ -260,14 +262,14 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <TextBlock Margin="2" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource BlackBrush}">
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" Background="{DynamicResource WhiteBrush}">
+                                <TextBlock Margin="5,2" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource BlackBrush}">
                                     <Run Text="Seiten:" />
                                     <Run x:Name="TextPageCount" Text="0" />
                                 </TextBlock>
                             </StackPanel>
 
-                            <TreeView x:Name="TreeViewLangItems" SelectedItemChanged="TreeViewLangItems_SelectedItemChanged" Grid.Row="1" ContextMenu="{StaticResource AddPageContextMenu}" PreviewMouseDown="TreeViewLangItems_PreviewMouseDown" Background="{DynamicResource WhiteBrush}">
+                            <TreeView x:Name="TreeViewLangItems" SelectedItemChanged="TreeViewLangItems_SelectedItemChanged" Grid.Row="1" ContextMenu="{StaticResource AddPageContextMenu}" PreviewMouseDown="TreeViewLangItems_PreviewMouseDown" Margin="5,0,0,0" Background="{DynamicResource WhiteBrush}">
                                 <TreeView.Resources>
                                     <local:ScopeNameToIconConverter x:Key="scopeNameToIconConverter" />
                                     <local:ScopeToToolTipConverter x:Key="scopeToToolTipConverter" />
@@ -361,7 +363,7 @@
                                 </TreeView.ItemContainerStyle>
                             </TreeView>
                         </Grid>
-                        <Grid Grid.Column="1" Margin="5,0,0,0">
+                        <Grid Grid.Column="1" Margin="5,0,0,0" Background="{DynamicResource WhiteBrush}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -379,11 +381,11 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Background="{DynamicResource WhiteBrush}">
+                <TabItem x:Name="TabBlog" Background="{DynamicResource WhiteBrush}" Width="150">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <Image Source="resources/icons/blog.png" Width="16" />
-                            <TextBlock Margin="5,0,0,0" Text="Blogs" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
+                            <TextBlock FontWeight="{Binding ElementName=TabBlog, Path=IsSelected, Converter={StaticResource boolToBoldConverter}}" Margin="5,0,0,0" Text="Blogs" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
                         </StackPanel>
                     </TabItem.Header>
                     <Border Background="{DynamicResource WhiteBrush}">
@@ -406,14 +408,14 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Grid Margin="2">
+                                        <Grid Margin="2" Background="{DynamicResource TabControl.Background}">
                                             <Grid.Resources>
                                                 <Style TargetType="{x:Type TextBlock}">
                                                     <Setter Property="FontWeight" Value="Bold" />
                                                 </Style>
                                             </Grid.Resources>
 
-                                            <TabControl x:Name="TabControlEdit" SelectionChanged="TabControlEdit_SelectionChanged" Grid.Row="1" Background="{DynamicResource WhiteBrush}">
+                                            <TabControl x:Name="TabControlEdit" BorderThickness="0" Padding="0" SelectionChanged="TabControlEdit_SelectionChanged" Grid.Row="1" Background="{DynamicResource WhiteBrush}">
                                                 <TabControl.Resources>
                                                     <ResourceDictionary>
                                                         <ResourceDictionary.MergedDictionaries>
@@ -421,7 +423,7 @@
                                                         </ResourceDictionary.MergedDictionaries>
                                                     </ResourceDictionary>
                                                 </TabControl.Resources>
-                                                <TabItem Header="Eigenschaften" Background="{DynamicResource WhiteBrush}">
+                                                <TabItem Header="Eigenschaften" Width="150" Background="{DynamicResource WhiteBrush}">
                                                     <ScrollViewer>
                                                         <StackPanel x:Name="PanelProperties">
                                                             <StackPanel.Resources>
@@ -472,12 +474,12 @@
                                                         </StackPanel>
                                                     </ScrollViewer>
                                                 </TabItem>
-                                                <TabItem Header="Bloginhalt (HTML)" Background="{DynamicResource WhiteBrush}">
+                                                <TabItem Header="Bloginhalt (HTML)" Width="150" Background="{DynamicResource WhiteBrush}">
                                                     <Grid>
                                                         <controls:TextEditor x:Name="TextBlogContent" IsReadOnly="True" UseBlogs="True" />
                                                     </Grid>
                                                 </TabItem>
-                                                <TabItem Header="Vorschau (HTML)">
+                                                <TabItem Header="Vorschau (HTML)" Width="150">
                                                     <wv2:WebView2 Grid.Row="0" x:Name="Browser" Loaded="Browser_Loaded"  />
                                                 </TabItem>
                                             </TabControl>
@@ -488,14 +490,14 @@
                         </Grid>
                     </Border>
                 </TabItem>
-                <TabItem Background="{DynamicResource WhiteBrush}">
+                <TabItem x:Name="TabTag" Width="150">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <Image Source="resources/icons/tag.png" Width="16" />
-                            <TextBlock Margin="5,0,0,0" Text="Tags" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
+                            <TextBlock FontWeight="{Binding ElementName=TabTag, Path=IsSelected, Converter={StaticResource boolToBoldConverter}}" Margin="5,0,0,0" Text="Tags" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
                         </StackPanel>
                     </TabItem.Header>
-                    <Grid>
+                    <Grid Background="{DynamicResource WhiteBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -545,7 +547,7 @@
 
             <GridSplitter x:Name="GridLogSplitter" Panel.ZIndex="1000" Background="Transparent" Grid.Row="2" BorderThickness="1" Height="16" HorizontalAlignment="Stretch" Style="{StaticResource GridSplitterStyle1}" />
 
-            <TabControl x:Name="TabControlLog" Margin="0,-15,0,0" Grid.Row="3" Visibility="Visible" Background="{DynamicResource WhiteBrush}">
+            <TabControl x:Name="TabControlLog" BorderThickness="0" Padding="0" Margin="0,-15,0,0" Grid.Row="3" Visibility="Visible" Background="{DynamicResource WhiteBrush}">
                 <TabControl.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
@@ -553,11 +555,11 @@
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </TabControl.Resources>
-                <TabItem>
+                <TabItem Width="150">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="20">
                             <Image Source="resources/icons/log.png" Width="16" />
-                            <TextBlock Margin="5,0,0,0" Text="Protokoll" Foreground="{DynamicResource BlackBrush}" VerticalAlignment="Center" />
+                            <TextBlock Margin="5,0,0,0" Text="Protokoll" Foreground="{DynamicResource BlackBrush}" FontWeight="Bold" VerticalAlignment="Center" />
                         </StackPanel>
                     </TabItem.Header>
                     <ScrollViewer x:Name="LogScrollViewer">

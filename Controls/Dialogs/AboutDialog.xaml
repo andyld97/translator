@@ -5,8 +5,8 @@
         Title="Über" Height="630" Width="420"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
-    <Grid Background="{DynamicResource WhiteBrush}">
-        <TabControl Margin="5,5,5,5" Background="Transparent">
+    <Grid Background="{DynamicResource TabControl.Background}">
+        <TabControl BorderThickness="0" Padding="0" Margin="0,2,0,0" Background="Transparent">
             <TabControl.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
@@ -14,8 +14,13 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </TabControl.Resources>
-            <TabItem Header="Über">
-                <StackPanel>
+            <TabItem Header="Über" Width="150">
+                <StackPanel Background="{DynamicResource WhiteBrush}">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Hyperlink}">
+                            <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+                        </Style>
+                    </StackPanel.Resources>
                     <Image Source="../../resources/icons/globe_big.png" Width="230" Margin="0,15,0,0"/>
                     <TextBlock Margin="5,10,0,0" HorizontalAlignment="Center" Foreground="{DynamicResource BlackBrush}">
                         <Run Text="Idee von Floris John"/>
@@ -51,11 +56,12 @@
                         <LineBreak />
                         <Run x:Name="TextNewVersionAvailable" FontWeight="Bold" />
                         <LineBreak />
-                        <Run Text="Powered by .NET 6.0.2" FontWeight="Bold" />
+                        <Run Text="Powered by" FontWeight="Bold" />
+                        <Run x:Name="TextDotNetVersion" FontWeight="Bold" />
                     </TextBlock>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Changelog">
+            <TabItem Header="Changelog" Width="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <wpf:WebView2 x:Name="BrowserChangelog" Grid.Row="0" />
                 </ScrollViewer>

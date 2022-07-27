@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Translator.Controls" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" xmlns:htmlwpf="http://schemas.danielsabel.com/tinyhtmlwpf/2020"
              mc:Ignorable="d" d:DesignWidth="500" Loaded="UserControl_Loaded" >
-    <Grid>
+    <Grid> 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25" />
             <ColumnDefinition Width="*" />
@@ -19,26 +19,28 @@
             <ProgressBar x:Name="ProgressBarTextContent" IsIndeterminate="True" Visibility="Collapsed" Height="4" Margin="5,0,5,1" VerticalAlignment="Bottom" />
         </Grid>
 
-        <TabControl x:Name="TabHtml" SelectionChanged="TabHtml_SelectionChanged" Visibility="Collapsed" Grid.Column="1" Margin="5" Height="300" Background="{DynamicResource WhiteBrush}">
-            <TabControl.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="../resources/TabControlStyle.xaml"/>
-                    </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
-            </TabControl.Resources>
+        <Grid x:Name="TabHtml" Background="{DynamicResource TabControl.Background}" Grid.Column="1" Margin="5" Height="300" Visibility="Collapsed">
+            <TabControl BorderThickness="0" Padding="0" SelectionChanged="TabHtml_SelectionChanged">
+                <TabControl.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="../resources/TabControlStyle.xaml"/>
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </TabControl.Resources>
 
-            <TabItem Header="Bearbeiten" Background="{DynamicResource WhiteBrush}">
-                <Grid Background="Transparent">
-                    <local:TextEditor x:Name="TextHTML" UseBlogs="False" TextChanged="TextHTML_TextChanged"  Background="{DynamicResource WhiteBrush}" Padding="3" FontSize="15" FontFamily="Consolas" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="Vorschau">
-                <ScrollViewer>
-                    <htmlwpf:WpfHtmlControl x:Name="PreviewHTML" />
-                </ScrollViewer>
-            </TabItem>
-        </TabControl>
+                <TabItem Header="Bearbeiten" Width="150" Background="{DynamicResource WhiteBrush}">
+                    <Grid Background="Transparent">
+                        <local:TextEditor x:Name="TextHTML" UseBlogs="False" TextChanged="TextHTML_TextChanged"  Background="{DynamicResource WhiteBrush}" Padding="3" FontSize="15" FontFamily="Consolas" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Vorschau" Width="150">
+                    <ScrollViewer>
+                        <htmlwpf:WpfHtmlControl x:Name="PreviewHTML" Background="{DynamicResource WhiteBrush}" />
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Grid>
         <Button x:Name="ButtonTranslate" Click="ButtonTranslate_Click" ToolTip="Automatisch übersetzen" Grid.Column="2" Margin="5">
             <Image Source="../resources/icons/translate.png" />
         </Button>
