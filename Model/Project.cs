@@ -1,5 +1,4 @@
-﻿using IGPZ.Data.Serialization;
-using Translator.Controls.Dialogs;
+﻿using Translator.Controls.Dialogs;
 using Translator.Model.Blog;
 using Translator.Model.Log;
 using System;
@@ -11,6 +10,7 @@ using System.Xml.Serialization;
 using Translator.Model.Templates;
 using System.Linq;
 using Translator.Model.Tags;
+using Helper;
 
 namespace Translator.Model
 {

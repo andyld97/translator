@@ -1,6 +1,6 @@
-﻿using IGPZ.Data.Serialization;
-using Translator.Model.Log;
+﻿using Translator.Model.Log;
 using System;
+using Helper;
 
 namespace Translator.Model
 {
@@ -48,7 +48,7 @@ namespace Translator.Model
         {
             try
             {
-                var temp = Serialization.Read<Settings>(DATA_PATH, Serialization.Mode.Normal);
+                var temp = Serialization.Read<Settings>(DATA_PATH, Serialization.Mode.XML);
                 if (temp != null)
                     return temp;
             }
@@ -64,7 +64,7 @@ namespace Translator.Model
         {
             try
             {
-                Serialization.Save(DATA_PATH, this, Serialization.Mode.Normal);
+                Serialization.Save(DATA_PATH, this, Serialization.Mode.XML);
             }
             catch (Exception ex)
             {

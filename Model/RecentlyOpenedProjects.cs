@@ -1,4 +1,4 @@
-﻿using IGPZ.Data.Serialization;
+﻿using Helper;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +18,7 @@ namespace Translator.Model
             List<ShortProject> result = null;
             try
             {
-                result = Serialization.Read<List<ShortProject>>(path, Serialization.Mode.Normal);
+                result = Serialization.Read<List<ShortProject>>(path, Serialization.Mode.XML);
             }
             catch
             {
@@ -43,7 +43,7 @@ namespace Translator.Model
         {
             try
             {
-                Serialization.Save(path, projects, Serialization.Mode.Normal);
+                Serialization.Save(path, projects, Serialization.Mode.XML);
             }
             catch
             {

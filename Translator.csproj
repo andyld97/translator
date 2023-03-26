@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Translator</RootNamespace>
     <Deterministic>false</Deterministic>
@@ -280,38 +280,37 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DeepL" Version="0.4.0" />
+    <PackageReference Include="DeepL" Version="0.4.3" />
     <PackageReference Include="Fluent.Ribbon" Version="9.0.4" />
     <PackageReference Include="Google.Api.Gax.Grpc.GrpcCore" Version="3.7.0" />
-    <PackageReference Include="Google.Apis.Core" Version="1.57.0" />
-    <PackageReference Include="Google.Cloud.Translate.V3" Version="3.0.0" />
-    <PackageReference Include="Google.Protobuf" Version="3.21.4" />
-    <PackageReference Include="Grpc.Auth" Version="2.47.0" />
-    <PackageReference Include="Grpc.Core" Version="2.46.3" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
-    <PackageReference Include="IGPZ.Data.Serialization" Version="1.0.0" />
+    <PackageReference Include="Google.Apis.Core" Version="1.60.0" />
+    <PackageReference Include="Google.Cloud.Translate.V3" Version="3.2.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.22.1" />
+    <PackageReference Include="Grpc.Auth" Version="2.52.0" />
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="6.0.0-preview.4.21253.5" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0-preview.6.22324.4" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0-preview.6.22324.4" />
-    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="7.0.0-preview.6.22330.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0-preview.2.23128.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0-preview.2.23128.3" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="8.0.0-preview.2.23153.2" />
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="2.2.8" />
-    <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.0-preview.6.22324.4" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1305-prerelease" />
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="8.0.0-preview.2.23128.3" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1724-prerelease" />
     <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.AppContext" Version="4.3.0" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="7.0.0-preview.6.22324.4" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0-preview.2.23128.3" />
     <PackageReference Include="System.Console" Version="4.3.1" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
     <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.0-preview.6.22324.4" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="8.0.0-preview.2.23128.3" />
     <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.Tracing" Version="4.3.0" />
     <PackageReference Include="System.Globalization" Version="4.3.0" />
